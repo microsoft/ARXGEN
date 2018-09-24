@@ -4,13 +4,12 @@ ARXGEN: Corpus of Arxiv Articles for Deep Generative Models
 ARXGEN offers a list of article-id from arxiv.org and scripts to download and post-process into a text corpus to be used in text generation tasks. 
 
 # CITATION
-
-@inproceedings{arxgen2018,
+<pre><code>@inproceedings{arxgen2018,
     title={ARXGEN: Corpus of Arxiv Articles for Deep Generative Models},
     author={Celikyilmaz, Asli, and Bosselut, Antoine and Shen, Dinghan},
     booktitle={https://github.com/Microsoft/ARXGEN/edit/master/arxiv/},
     year={2018}
-}
+}</code></pre>
 
 ## Prerequisites
 
