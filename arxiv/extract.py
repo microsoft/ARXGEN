@@ -35,7 +35,6 @@ for f in onlyfiles:
         try:
             for f_gz in onlyfiles_gz:
                 if f_gz.endswith(".gz"):
-                    # print(f)
                     try:
                         tar = tarfile.open(mypath + f_gz)
                         new_dir = mypath + f_gz.replace(".gz", "")
@@ -55,10 +54,10 @@ for f in onlyfiles:
                             if f_tex.endswith(".tex"):
                                 copy(mypath_inner+f_tex, latex_folder_sub)
 
-                        num_noncorupt+=1
+                        num_noncorupt += 1
 
-                    except :
-                        num_corrupt +=1
+                    except:
+                        num_corrupt += 1
                         pass
 
             rmtree(mypath)
