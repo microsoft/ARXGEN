@@ -197,8 +197,10 @@ def getDebt(text):
 
 def removeDefinition(lines, content):
     debt = 0
-    ignoreset = set(['def', 'newcommand', 'renewcommand', 'newtheorem', 'setsymbol', 'footmath'])
-    for line in lines:
+    ignoreset = set(['def', 'newcommand', 'renewcommand', 'newtheorem', 'setsymbol', 'footmath', 'thanks', 'footnote'])
+    for i in range(len(lines)):
+        line = lines[i]
+
         pos = line.find('%')
         if pos != -1 and not (pos - 1 >= 0 and line[pos-1] == '\\'):
             line = line[0:pos]
@@ -218,13 +220,31 @@ def removeDefinition(lines, content):
             if debt <= 0:
                 continue
         content.append('%s\n' % line.strip())
-    
+
+def simpleClean(lines):
+    newlines = []
+    for i in range(len(lines)):
+        lines[i] = lines[i].replace("}}", "}\n}")
+        tag = '\\thanks'
+        a = lines[i].replace(tag, '\n' + tag).split('\n')
+        tag = '\\footnote'
+        for ai in a:
+            if len(ai) == 0:
+                continue
+            aii = ai.replace(tag, '\n' + tag).split('\n')
+            for aiii in aii:
+                newlines.append(aiii)
+
+    return newlines
 
 # a very simple version of latex to text, put the text between document together
 # remove all the enviroment settings and formulas
 def simpleLatexToText(inputfile, outputfile, sectioned=False):
     fin = open(inputfile)
     lines = fin.readlines()
+
+    lines = simpleClean(lines)
+
     fin.close()
     content = []
     count = 0
