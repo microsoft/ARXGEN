@@ -5,7 +5,6 @@
 
 from os import listdir
 import os
-import re
 import random
 from simpleDelatex import *
 
@@ -23,16 +22,16 @@ zero_count = 0
 for dir in alldirectories:
     tempWriteDir = write_dir + dir
     try:
-        in_files = listdir(read_dir+dir)
+        in_files = listdir(read_dir + dir)
 
         if len(in_files):
 
-            inputFile = read_dir+dir+"/"+in_files[0]
+            inputFile = read_dir + dir + "/" + in_files[0]
 
-            outDir = write_dir+dir
+            outDir = write_dir + dir
             if not os.path.exists(outDir):
                 os.makedirs(outDir)
-            outFile = outDir +"/"+in_files[0] + ".sec"
+            outFile = outDir + "/" + in_files[0] + ".sec"
 
             simpleLatexToText(inputFile, outFile, sectioned=True)
 

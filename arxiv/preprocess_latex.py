@@ -22,7 +22,7 @@ def clean_starting(input):
         return None
     if str.startswith(input.lower().strip().replace(' ', '').replace('*',''), '{appendix}'):
         return None
-    if len(input.strip().split(' ')) <=1:
+    if len(input.strip().split(' ')) <= 1:
         return None
     return input
 #
@@ -144,7 +144,7 @@ for i in range(len(alldirectories)):
             # else:
             #     continue
 
-            all_count+=1
+            all_count += 1
             inputFile = read_dir+ "/" + dir+"/"+in_files[0]
 
             fin = open(inputFile)
