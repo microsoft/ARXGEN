@@ -13,25 +13,23 @@ read_dir =  '/home/arxiv/tars/' # directory that contains downloaded arxiv tar f
 write_dir = '/home/dummy/' # temp directory to untar
 latex_folder = '/home/arxiv/latex' # /media/aslicel/DATADRIVE2/arxiv/local-directory/arXivTex/
 
-onlyfiles = [f for f in listdir(read_dir) if isfile(join(read_dir, f))]
+onlyfiles = [join(read_dir, f) for f in listdir(read_dir) if isfile(join(read_dir, f))]
 
 num_corrupt = 0
 num_noncorupt = 0
 
 for f in onlyfiles:
-
     ## open the tar file
-    if f.endswith("tar"):
-        print (f)
+    if tarfile.is_tarfile(f):
+        print(f)
         folder = f.split("_")[2]
-        tar = tarfile.open(read_dir + f)
+        #tar = tarfile.open(join(read_dir, f))
+        tar = tarfile.open(f)
         tar.extractall(write_dir)
         tar.close()
-
         ## open the gzip files under the tar directory
-        mypath = write_dir + folder + "/"
+        mypath = join(write_dir, folder)
         onlyfiles_gz = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-
         try:
             for f_gz in onlyfiles_gz:
                 if f_gz.endswith(".gz"):
@@ -43,29 +41,24 @@ for f in onlyfiles:
                             os.makedirs(new_dir)
                         tar.extractall(new_dir)
                         tar.close()
-
                         ## now copy the latex file under here
                         mypath_inner = new_dir + "/"
                         onlytexfiles = [fi for fi in listdir(mypath_inner) if isfile(join(mypath_inner, fi))]
                         latex_folder_sub = latex_folder + "/" + f_gz.replace(".gz", "")
                         if not os.path.exists(latex_folder_sub):
                             os.makedirs(latex_folder_sub)
-
                         for f_tex in onlytexfiles:
                             if f_tex.endswith(".tex"):
                                 copy(mypath_inner+f_tex, latex_folder_sub)
-
-                        num_noncorupt+=1
-
-                    except :
-                        num_corrupt +=1
+                        num_noncorupt += 1
+                    except:
+                        num_corrupt += 1
                         pass
-
             rmtree(mypath)
         except:
             pass
 
 
-print ("Total : ", str(num_corrupt+num_noncorupt))
-print ("Number of corrupted articles : " + str(num_corrupt))
-print ("Number of non-corrupted articles : " + str(num_noncorupt))
+print("Total : ", str(num_corrupt + num_noncorupt))
+print("Number of corrupted articles : " + str(num_corrupt))
+print("Number of non-corrupted articles : " + str(num_noncorupt))
